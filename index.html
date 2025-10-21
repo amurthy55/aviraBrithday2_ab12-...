@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days Until Birthday</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #balloons { position: relative; }
+        img { width: 100px; }
+    </style>
+</head>
+<body>
+    <div id="balloons">
+        <img src="data:image/png;base64,iVBORw..." alt="Balloons" />
+        <img src="data:image/png;base64,iVBORw..." alt="Mickey Mouse" />
+        <img src="data:image/png;base64,iVBORw..." alt="Mini Mouse" />
+    </div>
+    <h1>Happy Birthday Avira Navvi!!</h1>
+    <p id="countdown"></p>
+    <script>
+        function calculateDaysRemaining() {
+            const today = new Date();
+            const birthday = new Date('2026-06-19');
+            const timeDiff = birthday - today;
+            const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            return daysRemaining > 0 ? daysRemaining : 0;
+        }
+        document.getElementById('countdown').innerText = 'Days remaining: ' + calculateDaysRemaining();
+    </script>
+</body>
+</html>
