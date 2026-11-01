@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Birthday Countdown – 19 June 2027</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<style>
+  :root{
+    --pink:#ff5fb8; --purple:#8f5bff; --blue:#2db7ff; --yellow:#ffd23f; --green:#22c55e; --red:#ef3b4f; --orange:#ff8a1f;
+    --dark:#1f2a44; --muted:#4f5b86; --label:#fff;
+    --bg:linear-gradient(135deg,#ffd6f0 0%,#d9d0ff 30%,#c4ecff 60%,#d3ffe2 100%);
+    --card:rgba(255,255,255,.88); --tag:#fff;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --dark:#f6f3ff; --muted:#c3c9ea;
+      --bg:linear-gradient(135deg,#3a1450 0%,#1c1c55 40%,#0d3b4f 70%,#0f3b24 100%);
+      --card:rgba(26,26,58,.9); --tag:#2c2c5c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --dark:#f6f3ff; --muted:#c3c9ea;
+    --bg:linear-gradient(135deg,#3a1450 0%,#1c1c55 40%,#0d3b4f 70%,#0f3b24 100%);
+    --card:rgba(26,26,58,.9); --tag:#2c2c5c;
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);background-attachment:fixed;color:var(--dark);
+    overflow-x:hidden;
+  }
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .confetti i{position:absolute;top:-20px;width:10px;height:16px;border-radius:3px;opacity:.85;animation:fall linear infinite}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+  .card{
+    position:relative;z-index:1;width:min(920px,100%);background:var(--card);border-radius:34px;overflow:hidden;
+    box-shadow:0 20px 50px rgba(80,30,160,.28);padding:0;border:4px solid transparent;
+    background-clip:padding-box;outline:4px solid transparent;
+  }
+  .rainbow{height:12px;background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green),var(--blue),var(--purple),var(--pink))}
+  .inner{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:center;padding:26px 22px 22px}
+  @media(min-width:768px){.inner{padding:32px 40px 26px}}
+  @media(max-width:700px){.inner{grid-template-columns:1fr}}
+  h1{font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.12;margin-bottom:8px;
+    background:linear-gradient(90deg,var(--red),var(--orange),var(--green),var(--blue),var(--purple),var(--pink));
+    -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+  .emoji-row{font-size:1.5rem;letter-spacing:.2em;margin-bottom:8px}
+  .subtitle{font-size:.98rem;color:var(--muted);margin-bottom:14px}
+  .subtitle strong{color:var(--dark)}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .tag{border-radius:999px;padding:6px 13px;font-size:.82rem;font-weight:700;color:#fff;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+  .t1{background:linear-gradient(90deg,var(--green),#0e9f6e);}
+  .t2{background:linear-gradient(90deg,var(--orange),var(--red))}
+  .t3{background:linear-gradient(90deg,var(--blue),#1d6fff)}
+  .t4{background:linear-gradient(90deg,var(--pink),var(--purple))}
+  .t5{background:linear-gradient(90deg,var(--red),#b3122b);text-transform:uppercase;letter-spacing:.06em}
+  .countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  @media(max-width:520px){.countdown{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .time-box{border-radius:20px;padding:14px 10px 12px;text-align:center;color:#fff;box-shadow:0 10px 18px rgba(0,0,0,.2);
+    transition:transform .2s}
+  .time-box:hover{transform:translateY(-4px) rotate(-1deg)}
+  .b1{background:linear-gradient(145deg,#ff6b81,var(--red))}
+  .b2{background:linear-gradient(145deg,#ffb347,var(--orange))}
+  .b3{background:linear-gradient(145deg,#4ade80,#16a34a)}
+  .b4{background:linear-gradient(145deg,#5cc8ff,#3b6bff)}
+  .time-value{font-size:1.9rem;font-weight:800;text-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .time-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;color:var(--label);opacity:.95;margin-top:4px}
+  .message{margin-top:14px;font-size:1rem;font-weight:600;color:var(--muted)}
+  .message strong{color:var(--red);font-size:1.15em}
+  .scene{position:relative;justify-self:center;width:280px;max-width:100%;aspect-ratio:1/1.05}
+  .glow{position:absolute;inset:6% 6% 10%;border-radius:50%;
+    background:conic-gradient(from 0deg,var(--pink),var(--yellow),var(--green),var(--blue),var(--purple),var(--pink));
+    filter:blur(18px);opacity:.5;animation:spin 14s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .jersey{position:absolute;left:50%;top:2%;width:68%;transform:translateX(-50%);filter:drop-shadow(0 10px 12px rgba(0,0,0,.3));
+    animation:sway 3s ease-in-out infinite;transform-origin:50% 0}
+  @keyframes sway{0%,100%{transform:translateX(-50%) rotate(-2deg)}50%{transform:translateX(-50%) rotate(2deg)}}
+  .ball{position:absolute;right:2%;bottom:6%;width:30%;aspect-ratio:1/1;border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%,#1b1b1b 0 13%,transparent 14%),
+      radial-gradient(circle at 50% 12%,#1b1b1b 0 7%,transparent 8%),
+      radial-gradient(circle at 88% 40%,#1b1b1b 0 7%,transparent 8%),
+      radial-gradient(circle at 74% 88%,#1b1b1b 0 7%,transparent 8%),
+      radial-gradient(circle at 26% 88%,#1b1b1b 0 7%,transparent 8%),
+      radial-gradient(circle at 12% 40%,#1b1b1b 0 7%,transparent 8%),
+      radial-gradient(circle at 35% 30%,#fff,#e1e1ec 80%);
+    box-shadow:0 10px 18px rgba(0,0,0,.3);animation:bounce 1.5s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(6%)}50%{transform:translateY(-22%)}}
+  .belt{position:absolute;left:2%;bottom:8%;width:46%;filter:drop-shadow(0 6px 6px rgba(0,0,0,.25));transform:rotate(-8deg)}
+  .float{position:absolute;font-size:1.6rem;animation:float 4s ease-in-out infinite}
+  .f1{left:0;top:8%}.f2{right:0;top:22%;animation-delay:.6s}.f3{left:4%;top:48%;animation-delay:1.1s}.f4{right:6%;top:56%;animation-delay:1.6s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .age-pill{position:absolute;top:0;right:0;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;
+    border-radius:999px;padding:7px 14px;font-size:.88rem;box-shadow:0 6px 14px rgba(117,88,201,.55);transform:rotate(6deg)}
+  .age-pill strong{font-size:1.2rem}
+  .pitch{height:30px;background:repeating-linear-gradient(90deg,#22a34f 0 40px,#2fc062 40px 80px);border-top:3px solid rgba(255,255,255,.85)}
+  .waves{display:block;width:100%;height:46px}
+  @media(prefers-reduced-motion:reduce){.ball,.float,.jersey,.glow,.confetti i{animation:none}}
+</style>
+</head>
+<body>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+<div class="card">
+  <div class="rainbow"></div>
+  <div class="inner">
+    <div>
+      <div class="emoji-row">⚽ 🥋 🏊 🌈</div>
+      <h1>Birthday Countdown for Avira Navvi!!</h1>
+      <p class="subtitle">Kick-off for a very special 8th birthday on <strong>19 June 2027</strong>.</p>
+      <div class="tags">
+        <span class="tag t5">⭐ CR7 Fan</span>
+        <span class="tag t1">⚽ Football</span>
+        <span class="tag t2">🥋 Karate</span>
+        <span class="tag t3">🏊 Swimming</span>
+        <span class="tag t4">👯 Friends</span>
+      </div>
+      <div class="countdown">
+        <div class="time-box b1"><div class="time-value" id="days">--</div><div class="time-label">Days</div></div>
+        <div class="time-box b2"><div class="time-value" id="hours">--</div><div class="time-label">Hours</div></div>
+        <div class="time-box b3"><div class="time-value" id="minutes">--</div><div class="time-label">Minutes</div></div>
+        <div class="time-box b4"><div class="time-value" id="seconds">--</div><div class="time-label">Seconds</div></div>
+      </div>
+      <p class="message" id="message">Counting down to the big day! ⚽</p>
+    </div>
+    <div class="scene">
+      <div class="glow"></div>
+      <svg class="jersey" viewBox="0 0 200 210" aria-label="Jersey with the name Avira and number 7">
+        <path d="M70 8 Q100 28 130 8 L186 32 L170 84 L148 74 L148 198 Q100 208 52 198 L52 74 L30 84 L14 32 Z" fill="#e8213a"/>
+        <path d="M70 8 Q100 28 130 8 L140 12 Q100 40 60 12 Z" fill="#0b8f4a"/>
+        <path d="M14 32 L30 84 L44 78 L30 28 Z" fill="#0b8f4a"/>
+        <path d="M186 32 L170 84 L156 78 L170 28 Z" fill="#0b8f4a"/>
+        <path d="M52 74 L52 198 L60 199 L60 74 Z M148 74 L148 198 L140 199 L140 74 Z" fill="#ffd23f" opacity=".9"/>
+        <text x="100" y="72" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="19" letter-spacing="2" fill="#fff">AVIRA</text>
+        <text x="100" y="156" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="88" fill="#ffd23f" stroke="#7a0f1d" stroke-width="3" paint-order="stroke">7</text>
+      </svg>
+      <svg class="belt" viewBox="0 0 220 60" aria-label="Karate belt">
+        <rect x="4" y="18" width="212" height="22" rx="5" fill="#ff8a1f"/>
+        <rect x="4" y="18" width="212" height="6" rx="3" fill="#ffb15c"/>
+        <rect x="92" y="10" width="36" height="38" rx="9" fill="#e06e00"/>
+        <path d="M104 46 L92 58 L108 54 Z M116 46 L128 58 L112 54 Z" fill="#e06e00"/>
+      </svg>
+      <div class="ball"></div>
+      <span class="float f1">🏆</span><span class="float f2">🥇</span><span class="float f3">🏊</span><span class="float f4">✨</span>
+      <div class="age-pill">Turning <strong>8</strong> 🎉</div>
+    </div>
+  </div>
+  <div class="pitch"></div>
+  <svg class="waves" viewBox="0 0 900 46" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 18 Q56 0 112 18 T225 18 T337 18 T450 18 T562 18 T675 18 T787 18 T900 18 V46 H0Z" fill="#2db7ff"/>
+    <path d="M0 28 Q56 12 112 28 T225 28 T337 28 T450 28 T562 28 T675 28 T787 28 T900 28 V46 H0Z" fill="#1d8fff"/>
+    <path d="M0 38 Q56 24 112 38 T225 38 T337 38 T450 38 T562 38 T675 38 T787 38 T900 38 V46 H0Z" fill="#3b5bff"/>
+  </svg>
+</div>
+<script>
+  const colors=["#ef3b4f","#ff8a1f","#ffd23f","#22c55e","#2db7ff","#8f5bff","#ff5fb8"];
+  const box=document.getElementById("confetti");
+  for(let i=0;i<28;i++){
+    const c=document.createElement("i");
+    c.style.left=(Math.random()*100)+"%";
+    c.style.background=colors[i%colors.length];
+    c.style.animationDuration=(7+Math.random()*8)+"s";
+    c.style.animationDelay=(-Math.random()*12)+"s";
+    box.appendChild(c);
+  }
+  const target=new Date("2027-06-19T00:00:00");
+  const $=id=>document.getElementById(id);
+  function tick(){
+    const diff=target-new Date(), msg=$("message");
+    if(diff<=0){
+      ["days","hours","minutes","seconds"].forEach(i=>$(i).textContent="0");
+      msg.innerHTML="GOAL! It’s birthday time! 🎂⚽ Happy 8th birthday, Avira! SIUUU!";
+      return;
+    }
+    const s=Math.floor(diff/1000), days=Math.floor(s/86400);
+    $("days").textContent=days;
+    $("hours").textContent=String(Math.floor((s%86400)/3600)).padStart(2,"0");
+    $("minutes").textContent=String(Math.floor((s%3600)/60)).padStart(2,"0");
+    $("seconds").textContent=String(s%60).padStart(2,"0");
+    if(days===0) msg.innerHTML="Match day! Just today left until the big birthday! 🎂⚽";
+    else if(days<=7) msg.innerHTML=`Only <strong>${days}</strong> sleeps left until kick-off! 🥅`;
+    else msg.innerHTML=`<strong>${days}</strong> days to go until the big match! ⚽`;
+  }
+  tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
